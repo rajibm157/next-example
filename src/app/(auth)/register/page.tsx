@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,8 +8,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
-export default function LoginForm() {
+export default function Register() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -53,8 +53,8 @@ export default function LoginForm() {
         </div>
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
-          <Link href="#" className="underline">
-            Sign in
+          <Link href="/login" className="underline">
+            Login
           </Link>
         </div>
       </CardContent>
