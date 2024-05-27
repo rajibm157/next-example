@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -8,10 +10,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { LoginForm } from "@/components/login-form";
+import { authOptions } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Admin | Login" };
 
-export default function Login() {
+export default async function Login() {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user) {
+    return redirect("/");
+  }
+
   return (
     <main className="min-h-screen flex items-center">
       <Card className="mx-auto max-w-sm">

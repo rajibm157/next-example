@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,22 +19,38 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z
+    .string({ required_error: "Email is required" })
+    .min(1, "Email is required")
+    .email("Invalid email"),
   password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters." }),
+    .string({ required_error: "Password is required" })
+    .min(1, "Password is required")
+    .min(8, "Password must be more than 8 characters")
+    .max(32, "Password must be less than 32 characters"),
 });
 
 type ILogin = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
+  const router = useRouter();
   const form = useForm<ILogin>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
 
-  function onSubmit(values: ILogin) {
-    console.log(values);
+  async function onSubmit(values: ILogin) {
+    try {
+      console.log(values);
+      await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+      router.replace("/");
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   return (
