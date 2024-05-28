@@ -1,25 +1,33 @@
 import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
+import { connect } from "./database";
+import { User } from "@/models";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
       name: "credentials",
       credentials: {
-        email: {},
-        password: {},
+        email: { type: "text" },
+        password: { type: "password" },
       },
       authorize: async (credentials) => {
-        const user = { name: "Rajib", email: "rajib@gmail.com" };
+        await connect();
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
 
-        // logic to salt and hash password
-        // const pwHash = saltAndHashPassword(credentials.password);
+        const user = await User.findOne({ email: email }).exec();
+        if (!user) {
+          throw new Error("Email not exists.");
+        }
 
-        // logic to verify if user exists
-        // user = await getUserFromDb(credentials.email, pwHash);
+        const isPasswordMatch = await bcrypt.compare(password, user?.password);
 
-        if (user.email !== credentials?.email) {
-          return null;
+        if (!isPasswordMatch) {
+          throw new Error("Invalid credentials.");
         }
         return user;
       },

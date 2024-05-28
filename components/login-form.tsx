@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const loginSchema = z.object({
   email: z
@@ -34,20 +35,20 @@ type ILogin = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const router = useRouter();
-  const form = useForm<ILogin>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
-  });
+  const { toast } = useToast();
+  const form = useForm<ILogin>({ resolver: zodResolver(loginSchema) });
 
   async function onSubmit(values: ILogin) {
     try {
-      console.log(values);
-      await signIn("credentials", {
+      const res = await signIn("credentials", {
         email: values.email,
         password: values.password,
         redirect: false,
       });
-      router.replace("/");
+      if (res?.error) {
+        return toast({ title: res.error, variant: "destructive" });
+      }
+      return router.replace("/");
     } catch (error) {
       console.log("error", error);
     }
