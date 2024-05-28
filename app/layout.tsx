@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
+        <NextTopLoader />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

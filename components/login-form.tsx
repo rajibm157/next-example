@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,10 +38,12 @@ type ILogin = z.infer<typeof loginSchema>;
 export function LoginForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const form = useForm<ILogin>({ resolver: zodResolver(loginSchema) });
 
   async function onSubmit(values: ILogin) {
     try {
+      setLoading(true);
       const res = await signIn("credentials", {
         email: values.email,
         password: values.password,
@@ -51,6 +55,8 @@ export function LoginForm() {
       return router.replace("/");
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -95,7 +101,8 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
           Login
         </Button>
         <Button variant="outline" className="w-full">
