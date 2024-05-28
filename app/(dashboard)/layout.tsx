@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  Bell,
   CircleUser,
   Home,
   LineChart,
@@ -24,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SidebarLink } from "@/components/sidebar-link";
 
 export default function DashboardLayout({
   children,
@@ -43,44 +43,29 @@ export default function DashboardLayout({
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
+              <SidebarLink href="/">
                 <Home className="h-4 w-4" />
                 Dashboard
-              </Link>
-              <Link
-                href="/orders"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
+              </SidebarLink>
+              <SidebarLink href="/orders">
                 <ShoppingCart className="h-4 w-4" />
                 Orders
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                   6
                 </Badge>
-              </Link>
-              <Link
-                href="/products"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-              >
+              </SidebarLink>
+              <SidebarLink href="/products">
                 <Package className="h-4 w-4" />
                 Products
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
+              </SidebarLink>
+              <SidebarLink href="/customers">
                 <Users className="h-4 w-4" />
                 Customers
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
+              </SidebarLink>
+              <SidebarLink href="analytics">
                 <LineChart className="h-4 w-4" />
                 Analytics
-              </Link>
+              </SidebarLink>
             </nav>
           </div>
         </div>
@@ -107,44 +92,29 @@ export default function DashboardLayout({
                   <Package2 className="h-6 w-6" />
                   <span className="sr-only">Acme Inc</span>
                 </Link>
-                <Link
-                  href="/"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
+                <SidebarLink href="/" mobile>
                   <Home className="h-5 w-5" />
                   Dashboard
-                </Link>
-                <Link
-                  href="/orders"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-                >
+                </SidebarLink>
+                <SidebarLink href="/orders" mobile>
                   <ShoppingCart className="h-5 w-5" />
                   Orders
                   <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                     6
                   </Badge>
-                </Link>
-                <Link
-                  href="/products"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
+                </SidebarLink>
+                <SidebarLink href="/products" mobile>
                   <Package className="h-5 w-5" />
                   Products
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
+                </SidebarLink>
+                <SidebarLink href="/customers" mobile>
                   <Users className="h-5 w-5" />
                   Customers
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
+                </SidebarLink>
+                <SidebarLink href="/analytics" mobile>
                   <LineChart className="h-5 w-5" />
                   Analytics
-                </Link>
+                </SidebarLink>
               </nav>
             </SheetContent>
           </Sheet>
